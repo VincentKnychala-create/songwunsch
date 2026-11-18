@@ -11,6 +11,10 @@
     return;
   }
   const db = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
+db.from("page_views").insert({}).then(({ error }) => {
+  if (error) console.error("Besuch konnte nicht gezählt werden:", error);
+});
   form.addEventListener("submit", async e => {
     e.preventDefault();
     button.disabled = true; status.textContent = "Wird gesendet …"; status.className = "status";
