@@ -22,7 +22,8 @@ db.from("page_views").insert({}).then(({ error }) => {
     const { error } = await db.from("song_requests").insert({
       name: String(values.get("name")).trim(),
       song: String(values.get("song")).trim(),
-      message: String(values.get("message") || "").trim()
+      message: String(values.get("message") || "").trim(),
+status: "pending"
     });
     button.disabled = false;
     if (error) {
