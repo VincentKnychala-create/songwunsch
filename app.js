@@ -19,19 +19,22 @@ db.from("page_views").insert({}).then(({ error }) => {
     e.preventDefault();
     button.disabled = true; status.textContent = "Wird gesendet …"; status.className = "status";
     const values = new FormData(form);
-    const { error } = await db.from("song_requests").insert({
+    const requestCode = crypto.randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase();
+    const { data, error } = await db.from("song_requests").insert({
       name: String(values.get("name")).trim(),
       song: String(values.get("song")).trim(),
       message: String(values.get("message") || "").trim(),
-status: "pending"
-    });
+status: "pending",
+      const requestCode = crypto.randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase();
+}).select().single();
     button.disabled = false;
     if (error) {
       status.textContent = "Das hat leider nicht geklappt. Bitte versuche es erneut.";
       status.className = "status error";
     } else {
-      form.reset(); status.textContent = "Danke! Dein Songwunsch ist angekommen. 🖤";
-      status.className = "status success";
+    form.reset();
+status.textContent = "🕒 Ihr Song wird überprüft.";
+status.className = "status success";
     }
   });
 })();
